@@ -1,0 +1,28 @@
+import paquete.*
+import mensajeros.*
+
+describe "test Paquete de George 1" {
+  test "Puede ser llavado por Neo a la Matrix " {
+    assert.equals(false, paquete.sePuedeEntregar(neo,matrix))
+  }
+}
+describe "El paquete de George 2 " {
+  test "El paquete de George que sí está pago puede ser llevado por Jean a la matrix"{
+    paquete.pagaPaquete()
+    assert.equals(false, paquete.sePuedeEntregar(jeanGray,matrix))
+  }
+}
+describe "El paquete de George 3 " {
+  test "El paquete de George que sí está pago no puede ser llevado por Sara (que pesa 70kg) a Brooklyn si es que utiliza un camión con un acoplado"{
+    paquete.pagaPaquete()
+    sara.vehiculo(camionConAcoplados)
+    assert.equals(false, paquete.sePuedeEntregar(sara,puenteDeBrooklyn))
+  }
+}
+describe "El paquete de George 4 " {
+  test "La entrega anterior puede hacerse si Sara usa una moto"{
+    paquete.pagaPaquete()
+    sara.vehiculo(moto)
+    assert.equals(true, paquete.sePuedeEntregar(sara,puenteDeBrooklyn))
+  }
+}
