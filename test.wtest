@@ -1,6 +1,7 @@
 import paquete.*
 import mensajeros.*
-
+import vehiculos.*
+import destino.*
 describe "test Paquete de George 1" {
   test "Puede ser llavado por Neo a la Matrix " {
     assert.equals(false, paquete.sePuedeEntregar(neo,matrix))

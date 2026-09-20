@@ -1,5 +1,6 @@
 import  mensajeros.*
-
+import vehiculos.*
+import destino.*
 object paquete {
     var pago = false 
     method precio(destino){
@@ -16,21 +17,24 @@ object paquete {
     }
 
 }
-object matrix {
-  method precio() {
-    return  500
+object paquetito {
+  method precio(destino){
+    return 0
   }
-  method puedePasar_(mensajero){
-    return  mensajero.llamada()
+  method sePuedeEntrgar(mensajero,destino){
+    return true
   }
-
 }
-object puenteDeBrooklyn {
-  method precio() {
-    return 150
+object paqueteViajero{
+  var destino = []
+  method estaPago(){
+    return true
   }
-  method puedePasar_(mensajero) {
-    return mensajero.peso() < 1000
+  method precio(destino){
+    return 100 * destino.size() 
+  }
+  method sePuedeEntrgar(mensajero,destino){
+    return 
   }
 }
 
