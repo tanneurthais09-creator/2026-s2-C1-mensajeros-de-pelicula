@@ -4,16 +4,17 @@ object jeanGray {
     return 65 
   }
   method llamada() {
-    return false
+    return true 
   }
 }
 object neo {
-    var property credito = 1
+    var property credito = true
     method peso(){
         return 0
     }
-    method llamda(){
-        return credito > 10
+    method llamada(){
+        return credito
+        
     }
 }
 object sara {
@@ -24,5 +25,15 @@ object sara {
     }
     method llamada(){
         return false
+    }
+}
+object trinily{
+    var property peso = 65
+    var property  vehiculo = moto 
+    method peso(){
+        return peso + vehiculo.peso()
+    }
+    method llamada(){
+       return true
     }
 }

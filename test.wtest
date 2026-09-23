@@ -2,28 +2,168 @@ import paquete.*
 import mensajeros.*
 import vehiculos.*
 import destino.*
-describe "test Paquete de George 1" {
+import empresa.*
+describe "test Paquete de George 1 Primera Parte" {
   test "Puede ser llavado por Neo a la Matrix " {
-    assert.equals(false, paquete.sePuedeEntregar(neo,matrix))
+    paquete.destino(matrix)
+    assert.equals(false, paquete.sePuedeEntregar(neo))
   }
 }
-describe "El paquete de George 2 " {
+describe "El paquete de George 2 Primera Parte" {
   test "El paquete de George que sí está pago puede ser llevado por Jean a la matrix"{
     paquete.pagaPaquete()
-    assert.equals(false, paquete.sePuedeEntregar(jeanGray,matrix))
+    assert.equals(true, paquete.sePuedeEntregar(jeanGray))
   }
 }
-describe "El paquete de George 3 " {
+describe "El paquete de George 3 Primera Parte" {
   test "El paquete de George que sí está pago no puede ser llevado por Sara (que pesa 70kg) a Brooklyn si es que utiliza un camión con un acoplado"{
     paquete.pagaPaquete()
     sara.vehiculo(camionConAcoplados)
-    assert.equals(false, paquete.sePuedeEntregar(sara,puenteDeBrooklyn))
+    camionConAcoplados.acoples(2)
+    paquete.destino(puenteDeBrooklyn)
+    assert.equals(false, paquete.sePuedeEntregar(sara))
   }
 }
-describe "El paquete de George 4 " {
+describe "El paquete de George 4 Primera Parte" {
   test "La entrega anterior puede hacerse si Sara usa una moto"{
     paquete.pagaPaquete()
+    paquete.destino(puenteDeBrooklyn)
     sara.vehiculo(moto)
-    assert.equals(true, paquete.sePuedeEntregar(sara,puenteDeBrooklyn))
+    assert.equals(true, paquete.sePuedeEntregar(sara))
+  }
+}
+
+describe "Segunda Parte tes1t 1" {
+  test "Contratar a un mensajero"{
+    empresa.contratar(jeanGray)
+    assert.equals([jeanGray], empresa.mensajeros())
+  }
+}
+
+
+describe "Segunda Parte test 2" {
+  test "Despedir a un mensajero"{
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    empresa.despedir(neo)
+    assert.equals([jeanGray],empresa.mensajeros())
+  }
+}
+
+describe "Segunda Parte test 3" {
+  test "Despedir a todos los mensajeros"{
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    empresa.despedirATodos()
+    assert.equals([],empresa.mensajeros())
+  }
+}
+
+describe "Segunda Parte test 4"{
+  test "La empresa es grande"{
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    empresa.contratar(sara)
+    assert.equals(true,empresa.laEmpresaEsGrande())
+  }
+}
+describe "Segunda Parte test 5"{
+  test "Consultar si el paquete puede ser entregado por el primer empleado de la la empresa de mensajería. "{
+    empresa.contratar(sara)
+    sara.vehiculo(moto)
+    empresa.contratar(jeanGray)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    assert.equals(true, empresa.puedeSerEntregadoPorElPrimerEmpleado(paquete))
+
+  }
+}
+
+describe "Segunda Parte test 6"{
+  test "Peso del ultimo mensajero de la empresa"{
+    empresa.contratar(sara)
+    empresa.contratar(jeanGray)
+    assert.equals(65, empresa.pesoDelUltimoMensajero())
+  }
+}
+
+describe "Tercera parte test 1"{
+  test " Averiguar si un paquete puede ser entregado por la empresa de mensajería,"{
+    empresa.contratar(sara)
+    empresa.contratar(jeanGray)
+    empresa.contratar(neo)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    assert.equals(true, empresa.puedeSerEntregadoPorAlguno(paquete))
+
+  }
+}
+describe "Tercera parte test 2"{
+  test " Obtener todos los mensajeros que pueden entregar un paquete"{
+    empresa.contratar(sara)
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    neo.credito(true)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    assert.equals([neo,jeanGray], empresa.quienPuedeEntregar(paquete))
+
+  }
+}
+
+describe "Tercera parte test 3"{
+  test "Tiene sobrepeso la empresa"{
+    empresa.contratar(sara)
+    sara.vehiculo(camionConAcoplados)
+    camionConAcoplados.acoples(5)
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    assert.equals(true, empresa.tieneSobrepeso())
+  }
+}
+
+describe "Tercera parte test 4"{
+  test "Entregar un paquete " {
+    empresa.contratar(sara)
+    empresa.contratar(neo)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    empresa.entregar(paquete)
+    assert.equals([paquete],empresa.paquetesEntregados())
+  }
+}
+describe "Tercera parte test 5"{
+  test "Facturación de la empresa"{
+    empresa.contratar(sara)
+    empresa.contratar(neo)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    empresa.entregar(paquete)
+    paquete.pagaPaquete()
+    paquete.destino(matrix)
+    empresa.entregar(paquete)
+    assert.equals(100, empresa.facturacion())
+  }
+}
+describe "Tercera parte test 6"{
+  test "Conjunto de paquetes"{
+    empresa.contratar(sara)
+    empresa.contratar(neo)
+    empresa.contratar(jeanGray)
+    empresa.entregarPorConjunto([paquete, paquetito, paquete])
+    assert.equals([], empresa.paquetesPendientes())
+  }
+}
+describe "Tercera parte test 7"{
+  test "Encontrar el paquete más caro de los paquetes pendientes"{
+    empresa.contratar(neo)
+    neo.credito(false)
+    empresa.entregar(paquete)
+    empresa.entregar(paquetito)
+    assert.equals([paquete], empresa.paquetesPendientes())
+    neo.credito(true)
+    empresa.entregarElPaquetePendienteMasCaro()
+    assert.equals(paquete, empresa.entregarElPaquetePendienteMasCaro())
+    assert.equals([], empresa.paquetesPendientes())
   }
 }
