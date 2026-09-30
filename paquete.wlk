@@ -1,34 +1,96 @@
+import mensajeros.*
+import vehiculos.*
+import destino.*
+import empresa.*
 object paquete {
-    var pagar = false 
-    method precio(destino){
-    return destino.precio()
+    var property destino = matrix
+    var pago = false 
+    method precio(){
+    return 50
     }
     method pagaPaquete() {
-      pagar = true
+      pago = true
     }
     method estaPago(){
-      return pagar 
+      return pago 
     }
-    method sePuedeEntregar(destino){
-
+    method sePuedeEntregar(mensajero){
+      return self.estaPago() && self.destino().puedePasar_(mensajero)
+    }
+    method enviar(){
+      true 
+    }
+    method destino(){
+      return destino
     }
 }
-
-object matrix {
-  method precio() {
-    return  500
+object paquetito {
+  var property destino = matrix
+  method estaPago(){
+    return true
   }
-  method puedePasar_(persona){
-    return  persona.llamada()
+  method precio(){
+    return 0
   }
-
+  method sePuedeEntregar(mensajero){
+    return true
+  }
+  method enviar(){
+      true 
+    }
+  method destino(){
+      return destino
+  }
 }
-object puenteDeBrooklyn {
-  method precio() {
-    return 150
+object paqueton{
+  const property destinos = []
+  var property monto = 0
+  
+  method estaPago(){
+    return self.precio() ==  monto
   }
-  method puedePasar_(persona) {
-    return persona.peso() < 1000
+  
+  method pagar(montoDestino){
+    monto += montoDestino 
   }
+  method precio(){
+    return 100 * destinos.size() 
+  }
+  method agregarDestino(destino){
+    destinos.add(destino)
+  }
+  method sePuedeEntregar(mensajero){
+    return self.estaPago() && destinos.all({destino  => destino.puedePasar_(mensajero)}) 
+  }
+  method enviar(){
+      true 
+    }
+  method destino(){
+    return destinos
+  }
+  
+}
+object paqueteConPrioridad {
+    var property destino = matrix
+    var pago = destino 
+    method precio() {
+      return 5000
+    }
+    method pagaPaquete() {
+      pago = true
+    }
+    method estaPago() {
+      return pago
+    }
+    method destino() {
+      return destino
+    }
+    method sePuedeEntregar(mensajero){
+      return self.estaPago() && self.destino().puedePasar_(mensajero)
+    }
+    method enviar() {
+      return self.estaPago()
+    }
+
 }
 
