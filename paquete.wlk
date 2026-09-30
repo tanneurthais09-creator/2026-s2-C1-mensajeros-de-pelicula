@@ -68,5 +68,29 @@ object paqueton{
   method destino(){
     return destinos
   }
+  
+}
+object paqueteConPrioridad {
+    var property destino = matrix
+    var pago = destino 
+    method precio() {
+      return 5000
+    }
+    method pagaPaquete() {
+      pago = true
+    }
+    method estaPago() {
+      return pago
+    }
+    method destino() {
+      return destino
+    }
+    method sePuedeEntregar(mensajero){
+      return self.estaPago() && self.destino().puedePasar_(mensajero)
+    }
+    method enviar() {
+      return self.estaPago()
+    }
+
 }
 

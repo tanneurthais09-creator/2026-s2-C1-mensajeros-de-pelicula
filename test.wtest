@@ -69,6 +69,7 @@ describe "Segunda Parte test 4"{
 }
 describe "Segunda Parte test 5"{
   test "Consultar si el paquete puede ser entregado por el primer empleado de la la empresa de mensajería. "{
+    empresa.contratar(neo)
     empresa.contratar(sara)
     sara.vehiculo(moto)
     empresa.contratar(jeanGray)
@@ -158,12 +159,16 @@ describe "Tercera parte test 7"{
   test "Encontrar el paquete más caro de los paquetes pendientes"{
     empresa.contratar(neo)
     neo.credito(false)
+    paquete.destino(matrix)
+    paquete.pagaPaquete()
+    paqueton.agregarDestino(matrix)
+    paqueton.agregarDestino(puenteDeBrooklyn)
+    paqueton.pagar(200)
     empresa.entregar(paquete)
-    empresa.entregar(paquetito)
-    assert.equals([paquete], empresa.paquetesPendientes())
-    neo.credito(true)
+    empresa.entregar(paqueton)
+    assert.equals([paquete,paqueton], empresa.paquetesPendientes())
+    neo.credito(true) 
     empresa.entregarElPaquetePendienteMasCaro()
-    assert.equals(paquete, empresa.entregarElPaquetePendienteMasCaro())
-    assert.equals([], empresa.paquetesPendientes())
+    assert.equals([paquete], empresa.paquetesPendientes())
   }
 }
